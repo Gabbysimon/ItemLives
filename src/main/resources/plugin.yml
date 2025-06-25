@@ -2,6 +2,7 @@ name: ItemLives
 version: '1.0-SNAPSHOT'
 main: com.gabby.itemLives.ItemLives
 api-version: '1.21'
+softdepend: ["PlaceholderAPI"]
 commands:
   setitemlives:
     description: Add lives to an item

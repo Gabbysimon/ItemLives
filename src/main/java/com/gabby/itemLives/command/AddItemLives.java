@@ -1,6 +1,10 @@
 package com.gabby.itemLives.command;
 
 import com.gabby.itemLives.ItemLivesUtils;
+import me.clip.placeholderapi.libs.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -20,10 +24,6 @@ public class AddItemLives implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Only players can execute this command.");
-            return true;
-        }
 
         if (!sender.hasPermission("itemLives.admin")) {
 
@@ -31,13 +31,19 @@ public class AddItemLives implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 1) {
-            sender.sendMessage(ChatColor.RED + "Invalid arguments!");
+        if (args.length != 2) {
+            sender.sendMessage(ChatColor.RED + "Invalid arguments! /addlives <lives> <player>");
             return true;
         }
 
-        final Player player = (Player) sender;
-        final ItemStack item = player.getInventory().getItemInMainHand();
+        final Player target = Bukkit.getPlayer(args[1]); {
+
+            if (target == null) {
+                sender.sendMessage(Component.text("Please specify a valid player!").color(NamedTextColor.RED));
+            }
+        }
+
+        final ItemStack item = target.getInventory().getItemInMainHand();
 
         int lives = -1;
 
@@ -48,29 +54,31 @@ public class AddItemLives implements CommandExecutor {
         }
         if (lives <= 0) {
 
-            player.sendMessage(ChatColor.RED + "You must enter a number greater than 0.");
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+            sender.sendMessage(ChatColor.RED + "You must enter a number greater than 0.");
             return true;
         }
         if (lives > 100) {
 
-            player.sendMessage(ChatColor.RED + "You must enter a number less than 100.");
+            sender.sendMessage(ChatColor.RED + "You must enter a number less than 100.");
             return true;
         }
 
 
         int currentLives = ItemLivesUtils.getLives(item, plugin);
         if (currentLives == -1) {
-            player.sendMessage(ChatColor.RED + "This item has no lives data!");
+            sender.sendMessage(ChatColor.RED + "This item has no lives data!");
             return true;
         }
 
         int newlives = currentLives + lives;
-        player.sendMessage(ChatColor.GREEN + "Successfully added " + newlives + " lives onto your item!");
-        ItemLivesUtils.setLives(player, newlives, plugin);
+        sender.sendMessage(Component.text("You have successfully added" + lives + "to " + target + "'s item!").color(NamedTextColor.GREEN));
+        ItemLivesUtils.setLives(item, newlives, plugin);
+        int repairs = ItemLivesUtils.getRepaired(item, plugin);
+        int setRepairs = ItemLivesUtils.setRepaired(item, repairs + 1, plugin);
         return true;
 
     }
+
 
 
     }

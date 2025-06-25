@@ -19,6 +19,49 @@ import java.util.Collections;
 
 public class ItemLivesUtils {
 
+    public static int getRepaired(ItemStack item, Plugin plugin) {
+
+        if (item.getType() == Material.AIR) {
+
+            return -1;
+        }
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            return -1;
+        }
+
+        NamespacedKey key = new NamespacedKey(plugin, "repaired");
+
+        if (meta.getPersistentDataContainer().has(key, PersistentDataType.INTEGER)) {
+            int repaired = meta.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
+            return repaired;
+        }
+
+
+        return 0;
+    }
+
+    public static int setRepaired(ItemStack item, int repaired, Plugin plugin) {
+
+        if (item.getType() == Material.AIR) {
+
+            return -1;
+        }
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            return -1;
+        }
+
+        NamespacedKey key = new NamespacedKey(plugin, "repaired");
+        meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, repaired);
+        item.setItemMeta(meta);
+        return repaired;
+
+
+    }
+
     public static int getLives(ItemStack item, Plugin plugin) {
 
         if (item.getType() == Material.AIR) {
@@ -42,9 +85,8 @@ public class ItemLivesUtils {
         return -1;
     }
 
-    public static int setLives(Player player, int lives, Plugin plugin) {
+    public static int setLives(ItemStack item, int lives, Plugin plugin) {
 
-        ItemStack item = player.getInventory().getItemInMainHand();
         if (item.getType() == Material.AIR) {
 
             return -1;
@@ -58,7 +100,6 @@ public class ItemLivesUtils {
         NamespacedKey key = new NamespacedKey(plugin, "life");
         meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, lives);
         item.setItemMeta(meta);
-        player.playSound(player.getLocation(), Sound.UI_LOOM_TAKE_RESULT, 1.0f, 1.0f);
         return lives;
 
 
@@ -86,6 +127,7 @@ public class ItemLivesUtils {
                 }
             }
         }
+
 
         return -1;
     }

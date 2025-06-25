@@ -1,5 +1,6 @@
 package com.gabby.itemLives.command;
 
+import com.gabby.itemLives.ItemLives;
 import com.gabby.itemLives.ItemLivesUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -7,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 
@@ -37,6 +39,7 @@ public class SetItemLives implements CommandExecutor {
         }
 
         final Player player = (Player) sender;
+        final ItemStack item = player.getInventory().getItemInMainHand();
 
         int lives = -1;
 
@@ -57,7 +60,9 @@ public class SetItemLives implements CommandExecutor {
             return true;
         }
 
-        int result = ItemLivesUtils.setLives(player, lives, plugin);
+        int result = ItemLivesUtils.setLives(item, lives, plugin);
+        int repairs = ItemLivesUtils.getRepaired(item, plugin);
+        int setRepairs = ItemLivesUtils.setRepaired(item, repairs + 1, plugin);
         if (result == -1) {
 
             player.sendMessage(ChatColor.RED + "This item is invalid!");
