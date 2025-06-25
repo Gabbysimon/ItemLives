@@ -44,6 +44,10 @@ public class DeathListener implements Listener {
                 toSave.add(item);
                 it.remove();
             }
+            if (lives == 0) {
+                it.remove();
+
+            }
         }
 
         if (!toSave.isEmpty()) {

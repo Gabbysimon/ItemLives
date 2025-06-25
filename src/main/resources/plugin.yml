@@ -4,7 +4,7 @@ main: com.gabby.itemLives.ItemLives
 api-version: '1.21'
 softdepend: ["PlaceholderAPI"]
 commands:
-  setitemlives:
+  setlives:
     description: Add lives to an item
   getlives:
     description: Get the number of lives on an item

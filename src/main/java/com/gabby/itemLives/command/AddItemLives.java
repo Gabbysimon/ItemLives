@@ -27,7 +27,7 @@ public class AddItemLives implements CommandExecutor {
 
         if (!sender.hasPermission("itemLives.admin")) {
 
-            sender.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+            sender.sendMessage(Component.text("You do not have permission to execute this command!").color(NamedTextColor.RED));
             return true;
         }
 
@@ -51,6 +51,7 @@ public class AddItemLives implements CommandExecutor {
             lives = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
             sender.sendMessage(ChatColor.RED + "Please enter a valid number!");
+            return true;
         }
         if (lives <= 0) {
 
@@ -71,7 +72,7 @@ public class AddItemLives implements CommandExecutor {
         }
 
         int newlives = currentLives + lives;
-        sender.sendMessage(Component.text("You have successfully added" + lives + "to " + target + "'s item!").color(NamedTextColor.GREEN));
+        sender.sendMessage(Component.text("You have successfully added " + lives + " lives to " + target.getName() + "'s item!").color(NamedTextColor.GREEN));
         ItemLivesUtils.setLives(item, newlives, plugin);
         int repairs = ItemLivesUtils.getRepaired(item, plugin);
         int setRepairs = ItemLivesUtils.setRepaired(item, repairs + 1, plugin);

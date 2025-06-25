@@ -20,7 +20,7 @@ public final class ItemLives extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
-        getCommand("setitemlives").setExecutor(new SetItemLives(this));
+        getCommand("setlives").setExecutor(new SetItemLives(this));
         getCommand("getlives").setExecutor(new GetItemLives(this));
         getCommand("addlives").setExecutor(new AddItemLives(this));
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
