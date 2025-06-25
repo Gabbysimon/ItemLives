@@ -1,0 +1,11 @@
+name: ItemLives
+version: '1.0-SNAPSHOT'
+main: com.gabby.itemLives.ItemLives
+api-version: '1.21'
+commands:
+  setitemlives:
+    description: Add lives to an item
+  getlives:
+    description: Get the number of lives on an item
+  addlives:
+    description: Get the number of lives on an item
